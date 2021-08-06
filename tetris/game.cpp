@@ -65,11 +65,33 @@ int Menu(void)
 //게임 시작
 void GameStart() {
 	system("cls");
-	GameTable* gametable = new GameTable;
-	gametable -> PrintBox();
+	GameTable::PrintBox();
+	Block *block = new Block(0, 5);
+
+	
 	while (1) {
-		if (KeyControl() == ESC)
+		int key = KeyControl();
+		if (key == ESC)
 			break;
+		else {
+			switch (key)
+			{
+			case UP:
+				block->RotationBlock();
+				break;
+			case DOWN:
+				block->ShiftBlock(0, 1);
+				break;
+			case LEFT:
+				block->ShiftBlock(-2, 0);
+				break;
+			case RIGHT:
+				block->ShiftBlock(2, 0);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 

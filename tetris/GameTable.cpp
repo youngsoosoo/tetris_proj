@@ -1,36 +1,58 @@
 #include "GameTable.h"
 
+#define WALL 1
+#define FIX 2
+#define BLOCK 3
+
 int GameTable::x = 10;
 int GameTable::y = 8;
 
-GameTable::GameTable() {
-	PrintBox();
-}
+int GameTable::BOX[TABLE_HEIGHT][TABLE_WIDTH] = {
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+};
 
-void  GameTable::PrintBox() const {
+void  GameTable::PrintBox() {
 	for (int i = 0; i < TABLE_HEIGHT; i++) {
 		Cursor(x, y + i);
 		for (int j = 0; j < TABLE_WIDTH; j++) {
-			if (box[i][j] == 1) cout << "▦";
-			else if (box[i][j] == 2) cout << "--";
+			if (BOX[i][j] == 1) cout << "▦";
+			else if (BOX[i][j] == 2) cout << "--";
 			else cout << "  ";
 		}
 		cout << endl;
 	}
 }
 
-void GameTable::PrintBlock() {
-	srand((unsigned int)time(NULL));
-	int num = rand() % 7 + 1;
-	if      (num == 1) block1 = new Block1(); // 1번 블럭 생성
-	else if (num == 2) block2 = new Block2(); // 2번 블럭 생성
-	else if (num == 3) block3 = new Block3(); // 3번 블럭 생성
-	else if (num == 4) block4 = new Block4(); // 4번 블럭 생성
-	else if (num == 5) block5 = new Block5(); // 5번 블럭 생성
-	else if (num == 6) block6 = new Block6(); // 6번 블럭 생성
-	else if (num == 7) block7 = new Block7(); // 7번 블럭 생성
-
-
-
-	
+bool GameTable::IsBlock(int _x, int _y /*블록의 위치*/) {   //해당 x, y 좌표에 블럭이 존재하는지 확인
+    if (BOX[_y - y][(_x - x)/2] == WALL || BOX[_y - y][(_x - x)/2] == BLOCK) {
+        return true;
+    }
+    return false;
 }
+
+bool GameTable::IsInTable(int _x /*블록의 x좌표*/) {
+    if (x < _x && _x < (x + (TABLE_WIDTH * 2) - 2)) {
+        return true;
+    }
+    return false;
+}
+

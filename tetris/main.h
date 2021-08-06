@@ -12,7 +12,7 @@
 
 //Å¬·¡½º
 #include "Gametable.h"
-
+#include "Block.h"
 
 using std::cout;
 using std::cin;
