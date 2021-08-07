@@ -4,6 +4,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <conio.h>
+#include <ctime>
 
 //소스 파일
 #include "util.h"

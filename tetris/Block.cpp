@@ -110,3 +110,7 @@ void Block::DeleteBlock() {
     }
 }
 
+void Block::FixBlock() {
+    
+}
+

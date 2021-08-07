@@ -66,31 +66,38 @@ int Menu(void)
 void GameStart() {
 	system("cls");
 	GameTable::PrintBox();
-	Block *block = new Block(0, 5);
-
-	
+	clock_t start = clock();			//시작시간
+	srand((unsigned int)time(NULL));	//랜덤함수
+	int num = rand() % 7;
+	Block block(0, num);				//블럭 객체생성
 	while (1) {
-		int key = KeyControl();
-		if (key == ESC)
-			break;
-		else {
+		clock_t time = clock();
+		if (_kbhit()) {
+			int key = KeyControl();
+			if (key == ESC) {
+				break;
+			}
 			switch (key)
 			{
 			case UP:
-				block->RotationBlock();
+				block.RotationBlock();
 				break;
 			case DOWN:
-				block->ShiftBlock(0, 1);
+				block.ShiftBlock(0, 1);
 				break;
 			case LEFT:
-				block->ShiftBlock(-2, 0);
+				block.ShiftBlock(-2, 0);
 				break;
 			case RIGHT:
-				block->ShiftBlock(2, 0);
+				block.ShiftBlock(2, 0);
 				break;
 			default:
 				break;
 			}
+		}
+		if (time - start > 800) {
+			start = time;
+			block.ShiftBlock(0, 1);
 		}
 	}
 }
