@@ -90,7 +90,7 @@ void Block::RotationBlock() {
     PrintBlock();
 }
 
-void Block::ShiftBlock(int _x, int _y) {
+void Block::ShiftBlock(int _x, int _y) {    
     for (int i = 0; i < 4; i++) {
         if (GameTable::IsBlock(x + (shape[i][0] * 2) + _x, y + shape[i][1] + _y)
             || !(GameTable::IsInTable(x + (shape[i][0]*2) + _x))) {
@@ -110,7 +110,21 @@ void Block::DeleteBlock() {
     }
 }
 
-void Block::FixBlock() {
-    
+bool Block::FixBlock() {
+    for (int i = 0; i < 4; i++) {
+        if (GameTable::BOX[(y + shape[i][1]) - GameTable::y+1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == UNDER || 
+            GameTable::BOX[(y + shape[i][1]) - GameTable::y+1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == BLOCK) {        //¹Ù´Ú¿¡ ´êÀ¸¸é ¸ØÃß±â
+            for (int j = 0; j < 4; j++) {
+                GameTable::BOX[(y + shape[j][1]) - GameTable::y][((x + (shape[j][0] * 2)) - GameTable::x) / 2] = BLOCK;
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
+void Block::OneDown() {
+    while (!FixBlock()) {
+        ShiftBlock(0,1);
+    }
+}

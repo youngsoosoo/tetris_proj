@@ -64,40 +64,51 @@ int Menu(void)
 
 //게임 시작
 void GameStart() {
+	GameTable::DeleteBlockLine();
 	system("cls");
 	GameTable::PrintBox();
-	clock_t start = clock();			//시작시간
 	srand((unsigned int)time(NULL));	//랜덤함수
-	int num = rand() % 7;
-	Block block(0, num);				//블럭 객체생성
 	while (1) {
-		clock_t time = clock();
-		if (_kbhit()) {
-			int key = KeyControl();
-			if (key == ESC) {
-				break;
+		clock_t start = clock();			//시작시간
+		int num = rand() % 7;
+		Block block(0, num);				//블럭 객체생성
+		while (1) {
+			clock_t time = clock();
+			if (_kbhit()) {
+				int key = KeyControl();
+				if (key == ESC) {
+					GameTable::ResetTable();
+					return;
+				}
+				switch (key)
+				{
+				case UP:
+					block.RotationBlock();
+					break;
+				case DOWN:
+					block.ShiftBlock(0, 1);
+					break;
+				case LEFT:
+					block.ShiftBlock(-2, 0);
+					break;
+				case RIGHT:
+					block.ShiftBlock(2, 0);
+					break;
+				case SPACE:
+					for (int i = 0; i < 4; i++) {
+						block.OneDown();
+					}
+					break;
+				default:
+					break;
+				}
 			}
-			switch (key)
-			{
-			case UP:
-				block.RotationBlock();
-				break;
-			case DOWN:
+			if (time - start > 800) {
+				if (block.FixBlock())
+					break;
+				start = time;
 				block.ShiftBlock(0, 1);
-				break;
-			case LEFT:
-				block.ShiftBlock(-2, 0);
-				break;
-			case RIGHT:
-				block.ShiftBlock(2, 0);
-				break;
-			default:
-				break;
 			}
-		}
-		if (time - start > 800) {
-			start = time;
-			block.ShiftBlock(0, 1);
 		}
 	}
 }

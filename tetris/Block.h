@@ -21,6 +21,7 @@ public:
     void RotationBlock();
     void ShiftBlock(int x, int y);
     void DeleteBlock();
-    void FixBlock();
+    bool FixBlock();
+    void OneDown();
 };
 
