@@ -64,11 +64,13 @@ int Menu(void)
 
 //게임 시작
 void GameStart() {
-	GameTable::DeleteBlockLine();
 	system("cls");
 	GameTable::PrintBox();
+	GameTable::TableScore();
 	srand((unsigned int)time(NULL));	//랜덤함수
 	while (1) {
+		while (GameTable::DeleteBlockLine());
+		GameTable::PrintBox();
 		clock_t start = clock();			//시작시간
 		int num = rand() % 7;
 		Block block(0, num);				//블럭 객체생성

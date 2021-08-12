@@ -116,6 +116,7 @@ bool Block::FixBlock() {
             GameTable::BOX[(y + shape[i][1]) - GameTable::y+1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == BLOCK) {        //¹Ù´Ú¿¡ ´êÀ¸¸é ¸ØÃß±â
             for (int j = 0; j < 4; j++) {
                 GameTable::BOX[(y + shape[j][1]) - GameTable::y][((x + (shape[j][0] * 2)) - GameTable::x) / 2] = BLOCK;
+                GameTable::PrintBox();
             }
             return true;
         }

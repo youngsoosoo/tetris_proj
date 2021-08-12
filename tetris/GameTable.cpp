@@ -1,5 +1,6 @@
 #include "GameTable.h"
 
+int GameTable::score = 0;
 int GameTable::x = 10;
 int GameTable::y = 8;
 
@@ -30,8 +31,9 @@ void  GameTable::PrintBox() {
 	for (int i = 0; i < TABLE_HEIGHT; i++) {
 		Cursor(x, y + i);
 		for (int j = 0; j < TABLE_WIDTH; j++) {
-			if (BOX[i][j] == 1 || BOX[i][j] == 4) cout << "▦";
-			else if (BOX[i][j] == 2) cout << "--";
+            if (BOX[i][j] == WALL || BOX[i][j] == UNDER) cout << "▦";
+            else if (BOX[i][j] == FIX) cout << "--";
+            else if (BOX[i][j] == BLOCK) cout << "■";
 			else cout << "  ";
 		}
 		cout << endl;
@@ -55,8 +57,8 @@ bool GameTable::IsInTable(int _x /*블록의 x좌표*/) {
 void GameTable::ResetTable() {
     for (int i = 0; i < TABLE_HEIGHT; i++) {
         for (int j = 0; j < TABLE_WIDTH; j++) {
-            if (GameTable::BOX[i][j] == BLOCK) {
-                GameTable::BOX[i][j] = 0;
+            if (BOX[i][j] == BLOCK) {
+                BOX[i][j] = 0;
             }
         }
     }
@@ -65,20 +67,46 @@ void GameTable::ResetTable() {
 bool GameTable::FullBlock() {
     for (int j = 0; j < TABLE_HEIGHT; j++) {
         for (int i = 0; i < TABLE_WIDTH; i++) {
-            int a = GameTable::BOX[j/*높이*/][i/*길이*/];
+            int a = BOX[j/*높이*/][i/*길이*/];
         }
     }
     return false;
 }
 
 
-void GameTable::DeleteBlockLine() {
-    for (int j = 0; j < TABLE_HEIGHT; j++) {
-        for (int i = 0; i < TABLE_WIDTH; i++) {
-            if (BOX[j/*높이*/][i/*길이*/] == BLOCK) {
-                BOX[j][i] = 0;
+bool GameTable::DeleteBlockLine() {
+    for (int Y = TABLE_HEIGHT - 1; Y > 0; Y--) {    // 블럭 한 줄이 전부 블럭인지
+        bool Line = true;
+        for (int X = 1; X < TABLE_WIDTH - 1; X++) {
+            if (BOX[Y][X] != BLOCK)
+            {
+                Line = false;
+                break;
             }
         }
+        int full = Y;
+        if (Line) {
+            for (int i = full-1; i > 0; i--) {
+                for (int j = 1; j < TABLE_WIDTH - 1; j++) {
+                    if (BOX[i + 1][j] != UNDER && BOX[i][j] != FIX) {
+                        BOX[i + 1][j] = BOX[i][j];
+                    }
+                }
+            }
+            score += 1000;
+            TableScore();
+            return true;
+        }
     }
+    return false;
+}
+
+void GameTable::BlockView() {
+
+}
+
+void GameTable::TableScore() {
+    Cursor(40, 8);
+    cout << "SCORE :" << score;
 }
 
