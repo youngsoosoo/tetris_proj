@@ -47,7 +47,6 @@ Block::Block(int _rotation, int _name) : name(_name), rotation(_rotation) {
             shape[i][j] = SHAPE[_name][_rotation][i][j];
         }
     }
-    PrintBlock();
 }
 
 int Block::GetX() {
@@ -63,7 +62,7 @@ int Block::GetRotation() {
 void Block::PrintBlock() {
     for (int i = 0; i < 4; i++) {
         Cursor(x + (2 * shape[i][0]), y + shape[i][1]);
-        cout << "¡á";
+        cout << "¡à";
     }
 }
 
@@ -111,21 +110,45 @@ void Block::DeleteBlock() {
 }
 
 bool Block::FixBlock() {
-    for (int i = 0; i < 4; i++) {
-        if (GameTable::BOX[(y + shape[i][1]) - GameTable::y+1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == UNDER || 
-            GameTable::BOX[(y + shape[i][1]) - GameTable::y+1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == BLOCK) {        //¹Ù´Ú¿¡ ´êÀ¸¸é ¸ØÃß±â
-            for (int j = 0; j < 4; j++) {
-                GameTable::BOX[(y + shape[j][1]) - GameTable::y][((x + (shape[j][0] * 2)) - GameTable::x) / 2] = BLOCK;
-                GameTable::PrintBox();
+        for (int i = 0; i < 4; i++) {
+            if (GameTable::BOX[(y + shape[i][1]) - GameTable::y + 1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == UNDER ||
+                GameTable::BOX[(y + shape[i][1]) - GameTable::y + 1][((x + (shape[i][0] * 2)) - GameTable::x) / 2] == BLOCK) {        //¹Ù´Ú¿¡ ´êÀ¸¸é ¸ØÃß±â
+                for (int j = 0; j < 4; j++) {
+                    GameTable::BOX[(y + shape[j][1]) - GameTable::y][((x + (shape[j][0] * 2)) - GameTable::x) / 2] = BLOCK;
+                    GameTable::PrintBox();
+                }
+                return true;
             }
-            return true;
         }
-    }
-    return false;
+        return false;
 }
 
 void Block::OneDown() {
     while (!FixBlock()) {
         ShiftBlock(0,1);
+    }
+}
+
+void Block::operator=(Block &block) {
+    name = block.name;
+    rotation = block.rotation;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 2; j++) {
+            shape[i][j] = block.shape[i][j];
+        }
+    }
+}
+
+void Block::NextBlock() {
+    for (int i = 0; i < 4; i++) {
+        Cursor(40 + (2 * shape[i][0]), 14 + shape[i][1]);
+        cout << "¡á";
+    }
+}
+
+void Block::DeleteNextBlock() {
+    for (int i = 0; i < 4; i++) {
+        Cursor(x + (2 * shape[i][0]), y + shape[i][1]);
+        cout << "  ";
     }
 }

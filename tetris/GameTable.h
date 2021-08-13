@@ -3,9 +3,9 @@
 #include "Block.h"
 
 #define TABLE_WIDTH 12		//테이블 가로
-#define TABLE_HEIGHT 20		//테이플 세로
+#define TABLE_HEIGHT 24		//테이플 세로
 #define WALL 1
-#define FIX 2
+#define LINE 2
 #define BLOCK 3
 #define UNDER 4
 #define BLANK 0
@@ -25,8 +25,9 @@ public:
 	static void ResetTable();	// 테이블 리셋
 	static bool FullBlock();	// 블록 라인이 꽉차있는지 확인
 	static bool DeleteBlockLine(); // 블럭 삭제
-	static void BlockView();		//블럭 미리보기
+	static bool GameOver();		//게임 오버
 	static void TableScore();			// 점수 표시
+	static void NextBlockView();		//다음 블럭 표시
 	//static bool IsInBottom(int);	//바닥에 닿았는지 확인
 };
 

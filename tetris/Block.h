@@ -1,7 +1,7 @@
 #pragma once
 
 #include "main.h"
-#define CREATE_X 20;
+#define CREATE_X 14;
 #define CREATE_Y 4;
 
 class Block {
@@ -23,5 +23,8 @@ public:
     void DeleteBlock();
     bool FixBlock();
     void OneDown();
+    void operator=(Block&);
+    void NextBlock();
+    void DeleteNextBlock();
 };
 

@@ -1,10 +1,14 @@
 #include "GameTable.h"
 
 int GameTable::score = 0;
-int GameTable::x = 10;
-int GameTable::y = 8;
+int GameTable::x = 4;
+int GameTable::y = 4;
 
 int GameTable::BOX[TABLE_HEIGHT][TABLE_WIDTH] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -32,12 +36,14 @@ void  GameTable::PrintBox() {
 		Cursor(x, y + i);
 		for (int j = 0; j < TABLE_WIDTH; j++) {
             if (BOX[i][j] == WALL || BOX[i][j] == UNDER) cout << "▦";
-            else if (BOX[i][j] == FIX) cout << "--";
+            else if (BOX[i][j] == LINE) cout << "__";
             else if (BOX[i][j] == BLOCK) cout << "■";
 			else cout << "  ";
 		}
 		cout << endl;
 	}
+    TableScore();
+    NextBlockView();
 }
 
 bool GameTable::IsBlock(int _x, int _y /*블록의 위치*/) {   //해당 x, y 좌표에 블럭이 존재하는지 확인
@@ -88,7 +94,7 @@ bool GameTable::DeleteBlockLine() {
         if (Line) {
             for (int i = full-1; i > 0; i--) {
                 for (int j = 1; j < TABLE_WIDTH - 1; j++) {
-                    if (BOX[i + 1][j] != UNDER && BOX[i][j] != FIX) {
+                    if (BOX[i + 1][j] != UNDER && BOX[i][j] != LINE) {
                         BOX[i + 1][j] = BOX[i][j];
                     }
                 }
@@ -101,12 +107,37 @@ bool GameTable::DeleteBlockLine() {
     return false;
 }
 
-void GameTable::BlockView() {
-
+bool GameTable::GameOver() {
+    for (int j = 1; j < TABLE_WIDTH - 1; j++) {
+        if (BOX[5][j] == BLOCK) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void GameTable::TableScore() {
-    Cursor(40, 8);
+    Cursor(40, 20);
     cout << "SCORE :" << score;
 }
+
+void GameTable::NextBlockView() {
+    Cursor(35, 10);
+    cout << "NEWX BLCOK :";
+    Cursor(35, 11);
+    cout << "▩▩▩▩▩▩" << endl;
+    Cursor(35, 12);
+    cout << "▩        ▩" << endl;
+    Cursor(35, 13);
+    cout << "▩        ▩" << endl;
+    Cursor(35, 14);
+    cout << "▩        ▩" << endl;
+    Cursor(35, 15);
+    cout << "▩        ▩" << endl;
+    Cursor(35, 16);
+    cout << "▩        ▩" << endl;
+    Cursor(35, 17);
+    cout << "▩▩▩▩▩▩" << endl;
+}
+
 
