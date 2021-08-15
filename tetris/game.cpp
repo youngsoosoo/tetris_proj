@@ -66,38 +66,27 @@ int Menu(void)
 void GameStart() {
 	system("cls");
 	GameTable::PrintBox();
-	srand((unsigned int)time(NULL));	//랜덤함수
 	Block block(0, rand() % 7);				//블럭 객체 생성
+	srand((unsigned int)time(NULL));	//랜덤함수
 	while (1) {
 		if (GameTable::GameOver()) {
 			GameTable::ResetTable();
-			system("cls");
-			Cursor(10, 15);
-			cout << " ======================================= " << endl << endl;
-			Cursor(10, 16);
-			cout << " ===============GAME OVER=============== " << endl << endl;
-			Cursor(10, 17);
-			cout << " ======================================= " << endl << endl;
-			Cursor(10, 18);
-			cout << " 엔터키를 누르면 메뉴로 돌아갑니다." << endl;
+			GameTable::GameOverView();
 			if (getchar()) {
 				break;
 			}
 		}
 		while (GameTable::DeleteBlockLine());
-		GameTable::PrintBox();
-		clock_t start = clock();			//시작시간		
-		
 		Block block1(0, rand() % 7);		//다음 블럭 객체 생성
 		block1.NextBlock();
-		
-
+		clock_t start = clock();			//시작시간		
 		while (1) {
-			clock_t time = clock();
+			clock_t time = clock();			//현재시간
 			if (_kbhit()) {
 				int key = KeyControl();
 				if (key == ESC) {
 					GameTable::ResetTable();
+					GameTable::score = 0;
 					return;
 				}
 				switch (key)
@@ -115,10 +104,7 @@ void GameStart() {
 					block.ShiftBlock(2, 0);
 					break;
 				case SPACE:
-					for (int i = 0; i < 4; i++) {
-						block.OneDown();
-						system("cls");
-					}
+					block.OneDown();
 					break;
 				default:
 					break;
@@ -126,13 +112,13 @@ void GameStart() {
 			}
 			if (time - start > 800) {
 				if (block.FixBlock()) {
-					block = block1;
 					break;
 				}
 				start = time;
 				block.ShiftBlock(0, 1);
 			}
 		}
+		block = block1;
 	}
 }
 

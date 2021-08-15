@@ -28,6 +28,7 @@ public:
 	static bool GameOver();		//게임 오버
 	static void TableScore();			// 점수 표시
 	static void NextBlockView();		//다음 블럭 표시
+	static void GameOverView();		//게임오버 출력
 	//static bool IsInBottom(int);	//바닥에 닿았는지 확인
 };
 

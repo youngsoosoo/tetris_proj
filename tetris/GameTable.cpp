@@ -96,7 +96,7 @@ bool GameTable::DeleteBlockLine() {
                 for (int j = 1; j < TABLE_WIDTH - 1; j++) {
                     if (BOX[i + 1][j] != UNDER && BOX[i][j] != LINE) {
                         BOX[i + 1][j] = BOX[i][j];
-                    }
+                      }
                 }
             }
             score += 1000;
@@ -140,4 +140,26 @@ void GameTable::NextBlockView() {
     cout << "▩▩▩▩▩▩" << endl;
 }
 
+void GameTable::GameOverView() {
+    char name;
+    system("cls");
+    Cursor(10, 15);
+    cout << " ======================================= " << endl << endl;
+    Cursor(10, 16);
+    cout << " ===============GAME OVER=============== " << endl << endl;
+    Cursor(10, 17);
+    cout << " ======================================= " << endl << endl;
+    Cursor(10, 18);
+    cout << "이름 : ";
+    cin >> name;
+    std::ifstream fin("TRTRIS.txt");
+    if (fin.fail()) {
+        cout << "파일을 찾을 수 없음" << endl;
+    }
+    else if (fin) {
+        cout << "이름 : " << name << "점수 : " << score;
+    }
+    fin.close();
+    return;
+}
 

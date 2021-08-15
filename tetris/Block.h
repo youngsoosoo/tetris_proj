@@ -26,5 +26,6 @@ public:
     void operator=(Block&);
     void NextBlock();
     void DeleteNextBlock();
+    bool BlockSpeed();
 };
 

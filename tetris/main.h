@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <conio.h>
 #include <ctime>
+#include <fstream>
+#include <iostream>
 
 //소스 파일
 #include "util.h"

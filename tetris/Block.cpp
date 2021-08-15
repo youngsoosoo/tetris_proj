@@ -117,6 +117,7 @@ bool Block::FixBlock() {
                     GameTable::BOX[(y + shape[j][1]) - GameTable::y][((x + (shape[j][0] * 2)) - GameTable::x) / 2] = BLOCK;
                     GameTable::PrintBox();
                 }
+                GameTable::score += 10;
                 return true;
             }
         }
@@ -130,6 +131,8 @@ void Block::OneDown() {
 }
 
 void Block::operator=(Block &block) {
+    x = CREATE_X;
+    y = CREATE_Y;
     name = block.name;
     rotation = block.rotation;
     for (int i = 0; i < 4; i++) {
@@ -152,3 +155,7 @@ void Block::DeleteNextBlock() {
         cout << "  ";
     }
 }
+
+/*bool Block::BlockSpeed() {
+    
+}*/
