@@ -1,2 +1,0 @@
-C:\Users\박용수\Desktop\게임개발\tetris\Debug\tetris.exe
-C:\Users\박용수\Desktop\tetris_proj\tetris\Debug\tetris.exe
